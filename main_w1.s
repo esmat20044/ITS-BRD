@@ -32,7 +32,7 @@ main
 ;   LDR     R7, =GPIO_D_CLR     ; get the address of the GPIO data clear register
     MOV     R0, #0x03           ; load mask 0b0001                                     mit #0x03  geht LED an Pin0 und 1  gleichzeitig an
 ;   MOV     R1, #0x02           ; load mask 0b0010
-;   MOV     R2, #0x40           ; load mask 0b0100
+  MOV     R2, #0x40           ; load mask 0b0100
 ;   MOV     R3, #0x80           ; load mask 0b1000
 
     ; Set LED

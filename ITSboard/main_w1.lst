@@ -1,0 +1,199 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;******************** (C) COPYRIGHT HAW-Hamburg ********
+                       ************************
+    2 00000000         ;* File Name          : main.s
+    3 00000000         ;* Author             : Martin Becke    
+    4 00000000         ;* Version            : V1.0
+    5 00000000         ;* Date               : 01.06.2021
+    6 00000000         ;* Description        : This is a simple main to setup t
+                       hree LEDs
+    7 00000000         ;                     :
+    8 00000000         ;                     : 
+    9 00000000         ;
+   10 00000000         ;*******************************************************
+                       ************************
+   11 00000000                 EXTERN           initITSboard ; Helper to organi
+                                                            ze the setup of the
+                                                             board
+   12 00000000         
+   13 00000000                 EXPORT           main        ; we need this for 
+                                                            the linker - In thi
+                                                            s context it set th
+                                                            e entry point,too
+   14 00000000         
+   15 00000000         
+   16 00000000         ; setup the peripherie - Mapping the GPIO
+   17 00000000 40000000 
+                       PERIPH_BASE
+                               equ              0x40000000
+   18 00000000 40020000 
+                       AHB1PERIPH_BASE
+                               equ              (PERIPH_BASE + 0x00020000)
+   19 00000000 40020C00 
+                       GPIOD_BASE
+                               equ              (AHB1PERIPH_BASE + 0x0C00)
+   20 00000000         
+   21 00000000 40020C18 
+                       GPIO_D_SET
+                               equ              (GPIOD_BASE + 0x18)
+   22 00000000 40020C1A 
+                       GPIO_D_CLR
+                               equ              (GPIOD_BASE + 0x1A)
+   23 00000000         
+   24 00000000         
+   25 00000000         ;* We need minimal memory setup of InRootSection placed 
+                       in Code Section 
+   26 00000000                 AREA             |.text|, CODE, READONLY, ALIGN 
+= 3
+   27 00000000                 ALIGN
+   28 00000000         main
+   29 00000000 F7FF FFFE       BL               initITSboard ; needed by the bo
+                                                            ard to setup       
+                                                                               
+                                                                           heir
+                                                             wird der Board  ei
+                                                            ngerichtet
+   30 00000004 BF00            nop                          ; no operation    
+   31 00000006 4E02            LDR              R6, =GPIO_D_SET ; get the addre
+                                                            ss of the GPIO data
+                                                             set register
+   32 00000008         ;   LDR     R7, =GPIO_D_CLR     ; get the address of the
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+                        GPIO data clear register
+   33 00000008 F04F 0003       MOV              R0, #0x03   ; load mask 0b0001 
+                                                                               
+                                                                             mi
+                                                            t #0x03  geht LED a
+                                                            n Pin 0 und 1  glei
+                                                            chzeitig an
+   34 0000000C         ;   MOV     R1, #0x02           ; load mask 0b0010
+   35 0000000C         ;   MOV     R2, #0x40           ; load mask 0b0100
+   36 0000000C         ;   MOV     R3, #0x80           ; load mask 0b1000
+   37 0000000C         
+   38 0000000C         ; Set LED
+   39 0000000C         ;*    STRB    R2, [R6]    ; switch on LED D14           
+                               hier geht das blaue licht von D14 an         
+   40 0000000C         ;*    STRB    R3, [R6]    ; switch on LED D15        hie
+                       r geht das nächste blaue licht von D15 an     
+   41 0000000C         ;*    STRB    R0, [R6]    ; switch on LED D08           
+                         hier geht das blaue licht von D8 an
+   42 0000000C         ;*    STRB    R0, [R7]    ; switch off LED D08         h
+                       ier wird das blaue licht von D8 wieder ausgemacht
+   43 0000000C 7030            STRB             R0, [R6]    ; switch on LED D08
+                                                                         hier g
+                                                            eht das blaue licht
+                                                             von D8 wieder an
+   44 0000000E         ;   STRB    R1, [R6]    ; switch on LED D09            h
+                       ier geht das blaue licht von D9 an
+   45 0000000E         ;*    STRB    R2, [R7]    ; switch off LED D14         h
+                       ier geht das blaue licht von D14 aus
+   46 0000000E         ;*    STRB    R3, [R7]    ; switch off LED D15          
+                         hier geht das blaue licht von D15 aus
+   47 0000000E E7FE            b                .
+   48 00000010         
+   49 00000010                 ALIGN
+   50 00000010                 END
+              40020C18 
+Command Line: --debug --xref --diag_suppress=9931,A1950W --cpu=Cortex-M4.fp.sp 
+--depend=.\itsboard\main_w1.d -o.\itsboard\main_w1.o -I.\RTE\_ITSboard_Assemble
+r -IC:\Users\JuanR\AppData\Local\Arm\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include -
+-predefine="__EVAL SETA 1" --predefine="__MICROLIB SETA 1" --predefine="__UVISI
+ON_VERSION SETA 542" --predefine="STM32F429xx SETA 1" --predefine="_RTE_ SETA 1
+" --list=.\itsboard\main_w1.lst main_w1.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 26 in file main_w1.s
+   Uses
+      None
+Comment: .text unused
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 28 in file main_w1.s
+   Uses
+      At line 13 in file main_w1.s
+Comment: main used once
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+AHB1PERIPH_BASE 40020000
+
+Symbol: AHB1PERIPH_BASE
+   Definitions
+      At line 18 in file main_w1.s
+   Uses
+      At line 19 in file main_w1.s
+Comment: AHB1PERIPH_BASE used once
+GPIOD_BASE 40020C00
+
+Symbol: GPIOD_BASE
+   Definitions
+      At line 19 in file main_w1.s
+   Uses
+      At line 21 in file main_w1.s
+      At line 22 in file main_w1.s
+
+GPIO_D_CLR 40020C1A
+
+Symbol: GPIO_D_CLR
+   Definitions
+      At line 22 in file main_w1.s
+   Uses
+      None
+Comment: GPIO_D_CLR unused
+GPIO_D_SET 40020C18
+
+Symbol: GPIO_D_SET
+   Definitions
+      At line 21 in file main_w1.s
+   Uses
+      At line 31 in file main_w1.s
+Comment: GPIO_D_SET used once
+PERIPH_BASE 40000000
+
+Symbol: PERIPH_BASE
+   Definitions
+      At line 17 in file main_w1.s
+   Uses
+      At line 18 in file main_w1.s
+Comment: PERIPH_BASE used once
+5 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+initITSboard 00000000
+
+Symbol: initITSboard
+   Definitions
+      At line 11 in file main_w1.s
+   Uses
+      At line 29 in file main_w1.s
+Comment: initITSboard used once
+1 symbol
+346 symbols in table

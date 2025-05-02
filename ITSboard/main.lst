@@ -1,0 +1,177 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ;******************** (C) COPYRIGHT HAW-Hamburg ********
+                       ************************
+    2 00000000         ;* File Name          : main.s
+    3 00000000         ;* Author             : Martin Becke    
+    4 00000000         ;* Version            : V1.0
+    5 00000000         ;* Date               : 01.06.2021
+    6 00000000         ;* Description        : This is a simple main to demonst
+                       rate data transfer
+    7 00000000         ;                     : and manipulation.
+    8 00000000         ;                     : 
+    9 00000000         ;
+   10 00000000         ;*******************************************************
+                       ************************
+   11 00000000                 EXTERN           initITSboard ; Helper to organi
+                                                            ze the setup of the
+                                                             board
+   12 00000000         
+   13 00000000                 EXPORT           main        ; we need this for 
+                                                            the linker - In thi
+                                                            s context it set th
+                                                            e entry point,too
+   14 00000000         
+   15 00000000         ;VariableC  EQU 0xaffe
+   16 00000000         
+   17 00000000         ;* We need some data to work on
+   18 00000000                 AREA             DATA, DATA, align=2
+   19 00000000 EF BE   VariableA
+                               DCW              0xbeef
+   20 00000002 34 12   VariableB
+                               DCW              0x1234
+   21 00000004 FE AF   VariableC
+                               DCW              0xaffe
+   22 00000006         
+   23 00000006         ;* We need minimal memory setup of InRootSection placed 
+                       in Code Section 
+   24 00000006                 AREA             |.text|, CODE, READONLY, ALIGN 
+= 3
+   25 00000000                 ALIGN
+   26 00000000         main
+   27 00000000 F7FF FFFE       BL               initITSboard ; needed by the bo
+                                                            ard to setup
+   28 00000004         ;* swap memory - Is there another, at least optimized ap
+                       proach?
+   29 00000004 480F            ldr              R0,=VariableA ; Anw01
+   30 00000006 7802            ldrb             R2,[R0]     ; Anw02
+   31 00000008 7843            ldrb             R3,[R0,#1]  ; Anw03
+   32 0000000A EA4F 2202       lsl              R2, #8      ; Anw04
+   33 0000000E EA42 0203       orr              R2, R3      ; Anw05
+   34 00000012 8002            strh             R2,[R0]     ; Anw06 
+   35 00000014         
+   36 00000014         
+   37 00000014 F8DF 8030       ldr              R8,=VariableC ; Anw07
+   38 00000018 F898 5000       ldrb             R5, [R8]    ; Anw08
+   39 0000001C F898 9001       ldrb             R9, [R8,#1] ; Anw09
+   40 00000020 EA4F 2909       lsl              R9, #8      ; Anw0A 
+   41 00000024 EA45 0509       orr              R5, R9      ; Anw0B
+   42 00000028 F8A8 5000       strh             R5,[R8]     ; Anw0C
+   43 0000002C         
+   44 0000002C         
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   45 0000002C         ;ldr     R8,=VariableC   ; Anw07
+   46 0000002C         ;mov     R5, #0xAF    ; Anw08
+   47 0000002C         ;lsl     R5, #8          ; Anw09 
+   48 0000002C         ;mov     R9, #0xFE   ; Anw0A
+   49 0000002C         ;orr     R5, R9    ; Anw0B
+   50 0000002C         ;strh    R5,[R8]         ; Anw0C
+   51 0000002C         
+   52 0000002C         
+   53 0000002C         ;* Change value from x1234 to x4321
+   54 0000002C 4907            ldr              R1,=VariableB ; Anw0D
+   55 0000002E F04F 0612       mov              R6, #0x12   ; Anw0E
+   56 00000032 F04F 0734       mov              R7, #0x34   ; Anw0F
+   57 00000036 EA4F 2606       lsl              R6, #8      ; Anw10
+   58 0000003A EA46 0607       orr              R6, R7      ; Anw11
+   59 0000003E 800E            strh             R6,[R1]     ; Anw12
+   60 00000040 E7FE            b                .           ; Anw13
+   61 00000042         
+   62 00000042 00 00           ALIGN
+   63 00000044                 END
+              00000000 
+              00000000 
+              00000000 
+Command Line: --debug --xref --diag_suppress=9931,A1950W --cpu=Cortex-M4.fp.sp 
+--depend=.\itsboard\main_1.d -o.\itsboard\main_1.o -I.\RTE\_ITSboard_Assembler 
+-IC:\Users\esmatrabaki\AppData\Local\Arm\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Inclu
+de --predefine="__EVAL SETA 1" --predefine="__MICROLIB SETA 1" --predefine="__U
+VISION_VERSION SETA 542" --predefine="STM32F429xx SETA 1" --predefine="_RTE_ SE
+TA 1" --list=.\itsboard\main.lst main.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+DATA 00000000
+
+Symbol: DATA
+   Definitions
+      At line 18 in file main.s
+   Uses
+      None
+Comment: DATA unused
+VariableA 00000000
+
+Symbol: VariableA
+   Definitions
+      At line 19 in file main.s
+   Uses
+      At line 29 in file main.s
+Comment: VariableA used once
+VariableB 00000002
+
+Symbol: VariableB
+   Definitions
+      At line 20 in file main.s
+   Uses
+      At line 54 in file main.s
+Comment: VariableB used once
+VariableC 00000004
+
+Symbol: VariableC
+   Definitions
+      At line 21 in file main.s
+   Uses
+      At line 37 in file main.s
+Comment: VariableC used once
+4 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 24 in file main.s
+   Uses
+      None
+Comment: .text unused
+main 00000000
+
+Symbol: main
+   Definitions
+      At line 26 in file main.s
+   Uses
+      At line 13 in file main.s
+Comment: main used once
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+initITSboard 00000000
+
+Symbol: initITSboard
+   Definitions
+      At line 11 in file main.s
+   Uses
+      At line 27 in file main.s
+Comment: initITSboard used once
+1 symbol
+345 symbols in table

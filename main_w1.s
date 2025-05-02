@@ -30,7 +30,7 @@ main
     nop                         ; no operation    
     LDR     R6, =GPIO_D_SET     ; get the address of the GPIO data set register
 ;   LDR     R7, =GPIO_D_CLR     ; get the address of the GPIO data clear register
-    MOV     R0, #0x03           ; load mask 0b0001                                     mit #0x03  geht hh gg   LED an Pin0 und 1  gleichzeitig an
+    MOV     R0, #0x03           ; load mask 0b0001                                     mit #0x03  geht LED an Pin0 und 1 gleichzeitig an
 ;   MOV     R1, #0x02           ; load mask 0b0010
 ;   MOV     R2, #0x40           ; load mask 0b0100
 ;   MOV     R3, #0x80           ; load mask 0b1000
@@ -38,9 +38,9 @@ main
     ; Set LED
 ;*    STRB    R2, [R6]    ; switch on LED D14               				hier geht das blaue licht von D14 an 								
 ;*    STRB    R3, [R6]    ; switch on LED D15								hier geht das nächste blaue licht von D15 an 				
-;*    STRB    R0, [R6]    ; switch on LED D08  							    hier geht das blaue licht von D8 an   
+;*    STRB    R0, [R6]    ; switch on LED D08  							    hier geht das blaue licht von D8 an.   
 ;*    STRB    R0  , [R7]    ; switch off LED D08  							hier wird das blaue licht von D8 wieder ausgemacht
-	  STR     R0, [R6]    ; switch on LED D08  							    hier geht das blaue licht von D8 wieder an
+	  STR     R0, [R6]    ; switch on LED D08  							    hier geht das blaue licht von D8 wieder an.
 ;	  STRB    R1, [R6]    ; switch on LED D09 						    	hier geht das blaue licht von D9 an
 ;*    STRB    R2, [R7]    ; switch off LED D14  							hier geht das blaue licht von D14 aus
 ;*    STRB    R3, [R7]    ; switch off LED D15				     			hier geht das blaue licht von D15 aus

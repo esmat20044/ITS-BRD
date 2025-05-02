@@ -1,0 +1,66 @@
+
+ARM Assembler Merkzettel (Befehle erklärt)
+
+-----------------------------------------------------
+MOV — Wert in Register schreiben
+Syntax:     mov Rd, #8 
+
+-----------------------------------------------------
+LDR — Lade Wert oder Adresse in Register
+Syntax:     ldr R0, =variable.  ; R0 bekommt Adresse von VariableA
+  
+
+-----------------------------------------------------
+LDRB — Lade das 1 Byte aus dem Speicher
+Syntax:     ldrb Rd, [Rn, #Offset]
+Beispiel:   ldrb R2, [R0]        ; Lade 1. Byte von VariableA
+            ldrb R3, [R0, #1]    ; Lade 2. Byte von VariableA
+
+-----------------------------------------------------
+LDRH — Lade 2 Byte (Halfword) aus dem Speicher
+Syntax:     ldrh Rd, [Rn]
+Beispiel:   ldrh R6, [R1]        ; Lade 2 Byte von Adresse in R1
+
+-----------------------------------------------------
+STRH — Speichere 2 Byte (Halfword) im Speicher
+Syntax:     strh Rs, [Rn]
+Beispiel:   strh R2, [R0]        ; Speicher R2 bei Adresse in R0
+
+-----------------------------------------------------
+STRB — Speichere 1 Byte im Speicher
+Syntax:     strb Rs, [Rn]
+
+-----------------------------------------------------
+ADD — Addiere zwei Werte
+Syntax:     add Rd, Rn, Rm
+Beispiel:   add R6, R6, R7
+
+-----------------------------------------------------
+ORR — kombieniere 
+Syntax:     orr Rd, Rm
+Beispiel:   orr R2, R3
+
+-----------------------------------------------------
+LSL — Logical Shift Left (<<) nach links um 8bits
+das heißt (0xEF) → (0xEF00)
+Syntax:     lsl Rd, #n
+Beispiel:   lsl R2, #8
+
+-----------------------------------------------------
+LSR — Logical Shift Right (>>) nach recht um 2 bits
+das heißt (0xEF00) → (0x00EF)
+Syntax:     lsr Rd, #n
+Beispiel:   lsr R3, #2
+
+-----------------------------------------------------
+B — Unbedingter Sprung (branch)
+Syntax:      b .    ; Endlosschleife
+
+-----------------------------------------------------
+Beispiel-Zeilen:
+
+mov     R6, #0x12
+lsl     R6, #8        ; 0x1200
+mov     R7, #0x34
+orr     R6, R7        ; 0x1234
+strh    R6, [R1]      ; Speichern an Adresse von VariableB

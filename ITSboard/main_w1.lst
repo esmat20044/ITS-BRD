@@ -49,33 +49,32 @@ ARM Macro Assembler    Page 1
    25 00000000         ;* We need minimal memory setup of InRootSection placed 
                        in Code Section 
    26 00000000                 AREA             |.text|, CODE, READONLY, ALIGN 
-= 3
+= 4
    27 00000000                 ALIGN
    28 00000000         main
    29 00000000 F7FF FFFE       BL               initITSboard ; needed by the bo
                                                             ard to setup       
-                                                                               
-                                                                           heir
-                                                             wird der Board  ei
-                                                            ngerichtet
+                                                                        heir wi
+                                                            rd der Board  einge
+                                                            richtet
    30 00000004 BF00            nop                          ; no operation    
    31 00000006 4E02            LDR              R6, =GPIO_D_SET ; get the addre
                                                             ss of the GPIO data
                                                              set register
    32 00000008         ;   LDR     R7, =GPIO_D_CLR     ; get the address of the
+                        GPIO data clear register
 
 
 
 ARM Macro Assembler    Page 2 
 
 
-                        GPIO data clear register
-   33 00000008 F04F 0003       MOV              R0, #0x03   ; load mask 0b0001 
+   33 00000008 F04F 00FF       MOV              R0, #0xFF   ; load mask 0b0001 
                                                                                
                                                                              mi
-                                                            t #0x03  geht LED a
-                                                            n Pin 0 und 1  glei
-                                                            chzeitig an
+                                                            t #0x03  geht hh gg
+                                                               LED an Pin0 und 
+                                                            1  gleichzeitig an
    34 0000000C         ;   MOV     R1, #0x02           ; load mask 0b0010
    35 0000000C         ;   MOV     R2, #0x40           ; load mask 0b0100
    36 0000000C         ;   MOV     R3, #0x80           ; load mask 0b1000
@@ -89,7 +88,7 @@ ARM Macro Assembler    Page 2
                          hier geht das blaue licht von D8 an
    42 0000000C         ;*    STRB    R0, [R7]    ; switch off LED D08         h
                        ier wird das blaue licht von D8 wieder ausgemacht
-   43 0000000C 7030            STRB             R0, [R6]    ; switch on LED D08
+   43 0000000C 6030            STR              R0, [R6]    ; switch on LED D08
                                                                          hier g
                                                             eht das blaue licht
                                                              von D8 wieder an
@@ -106,10 +105,10 @@ ARM Macro Assembler    Page 2
               40020C18 
 Command Line: --debug --xref --diag_suppress=9931,A1950W --cpu=Cortex-M4.fp.sp 
 --depend=.\itsboard\main_w1.d -o.\itsboard\main_w1.o -I.\RTE\_ITSboard_Assemble
-r -IC:\Users\JuanR\AppData\Local\Arm\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Include -
--predefine="__EVAL SETA 1" --predefine="__MICROLIB SETA 1" --predefine="__UVISI
-ON_VERSION SETA 542" --predefine="STM32F429xx SETA 1" --predefine="_RTE_ SETA 1
-" --list=.\itsboard\main_w1.lst main_w1.s
+r -IC:\Users\esmatrabaki\AppData\Local\Arm\Packs\ARM\CMSIS\6.1.0\CMSIS\Core\Inc
+lude --predefine="__EVAL SETA 1" --predefine="__MICROLIB SETA 1" --predefine="_
+_UVISION_VERSION SETA 542" --predefine="STM32F429xx SETA 1" --predefine="_RTE_ 
+SETA 1" --list=.\itsboard\main_w1.lst main_w1.s
 
 
 
